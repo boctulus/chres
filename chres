@@ -1,11 +1,13 @@
 #!/bin/bash
 
+#
+# Settings
+#
 display=eDP-1-1
 frec=60
 ratio=1.77
 minres=1280x720
 
-#selected_resols=(3840x2160 3200x1800 2880x1620 2560x1440 2048x11527 1920x1080 1600x900 1440x810 1368x768 1360x768 1280x720)
 
 get_resols () {
 	declare -A _arr
@@ -24,7 +26,6 @@ get_resols () {
 		_h=$(echo $res | cut -d'x' -f2)
 
 		if [[ $(echo $ratio | bc -l) == $(echo $_ratio | bc -l) ]] && [[ $_w -ge $minw ]] && [[ $_h -ge minh ]]; then
-			#echo $res - $ratio
 			_arr[$res]+=1
 		fi
 		
@@ -61,11 +62,11 @@ setresol () {
 # Select automaticaly some resolutions 
 get_resols
 
-echo -e "Seleccione resolución \n"
+echo -e "Select resolution \n"
 
 select res in ${selected_resols[@]} default
 do
-	echo "Cambiando a $res"
+	echo "Changing to $res"
 	sleep 1
 	setresol "$res"
 done
