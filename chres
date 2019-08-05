@@ -90,6 +90,7 @@ get_display () {
 }
 
 get_alias () {
+	shopt -s nocasematch
 	case $1 in
 		SD|240p)
 			echo 352x240
@@ -121,8 +122,15 @@ loadconf
 
 # Try with aliases
 if [[ -z $(egrep '[1-3]\.[0-9]+' <<< $ratio) ]]; then
-	res=$(get_alias $ratio);
-	ratio=$(echo "scale=1; $res" | awk '{print $1,"/",$2}' FS="x" | bc -l)
+	if [[ ! -z $(egrep '[0-9]{1,4}:[0-9]{1,4}' <<<$ratio) ]]; then
+		IFS=':'	
+		set -- $ratio
+		unset IFS
+		ratio=$(echo "scale=1; $1/$2" | bc -l)
+	else
+		res=$(get_alias $ratio);
+		ratio=$(echo "scale=1; $res" | awk '{print $1,"/",$2}' FS="x" | bc -l)
+	fi	
 fi 
 
 if [[ -z $(egrep '[0-9]{3,}x[0-9]{3,}' <<< $minres) ]]; then 
