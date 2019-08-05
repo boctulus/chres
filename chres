@@ -146,8 +146,10 @@ get_resols
 
 echo -e "Select resolution \n"
 
-select res in ${selected_resols[@]} default
+select res in ${selected_resols[@]} default quit
 do
+	[[ $res == "quit" ]] && break
+
 	echo "Changing to $res"
 	sleep 1
 	set_resol "$res"
