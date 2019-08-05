@@ -1,0 +1,71 @@
+#!/bin/bash
+
+display=eDP-1-1
+frec=60
+ratio=1.77
+minres=1280x720
+
+#selected_resols=(3840x2160 3200x1800 2880x1620 2560x1440 2048x11527 1920x1080 1600x900 1440x810 1368x768 1360x768 1280x720)
+
+get_resols () {
+	declare -A _arr
+
+	_arr=()
+
+	minw=$(echo $minres | cut -d'x' -f1)
+	minh=$(echo $minres | cut -d'x' -f2)
+
+	resols=$(xrandr | egrep -o [0-9]+x[0-9]+)
+
+	ix=0
+	for res in ${resols[@]}; do
+		_ratio=$(echo "scale=2; $res" | awk '{print $1,"/",$2}' FS="x" | bc -l)
+		_w=$(echo $res | cut -d'x' -f1)
+		_h=$(echo $res | cut -d'x' -f2)
+
+		if [[ $(echo $ratio | bc -l) == $(echo $_ratio | bc -l) ]] && [[ $_w -ge $minw ]] && [[ $_h -ge minh ]]; then
+			#echo $res - $ratio
+			_arr[$res]+=1
+		fi
+		
+		((ix++))
+	done
+
+	for res in ${!_arr[@]}; do
+		selected_resols=(${selected_resols[@]} $res)	
+	done
+
+	IFS=$'\n' selected_resols=($(sort -r <<<"${selected_resols[*]}"))
+	unset IFS
+}
+
+
+reset () {
+	DISPLAY=:0 xrandr --output $display --auto
+}
+
+setresol () {
+	wxh=$1
+
+	[[ $wxh == "default" ]] && { reset; return; }
+
+	wh=$(echo $wxh | awk '{print $1,$2}' FS="x")
+	params=$(cvt $wh $frec | grep ^Modeline | cut -d' ' -f3-)
+	set -- $params
+
+	xrandr --newmode "${wxh}_$frec.00" $@ 2>/dev/null
+	xrandr --addmode $display ${wxh}_$frec.00 2>/dev/null
+	xrandr --output $display --mode ${wxh}_$frec.00 2>/dev/null
+}
+
+# Select automaticaly some resolutions 
+get_resols
+
+echo -e "Seleccione resolución \n"
+
+select res in ${selected_resols[@]} default
+do
+	echo "Cambiando a $res"
+	sleep 1
+	setresol "$res"
+done
