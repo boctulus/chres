@@ -1,8 +1,7 @@
 #!/bin/bash
 
 loadconf () {
-	local real=$(realpath $0)
-	base=$(dirname $real)
+	base=$(dirname $(realpath $0))
 	source $base/chres.conf
 }
 
@@ -129,7 +128,10 @@ if [[ -z $(egrep '[1-3]\.[0-9]+' <<< $ratio) ]]; then
 		ratio=$(echo "scale=1; $1/$2" | bc -l)
 	else
 		res=$(get_alias $ratio);
-		ratio=$(echo "scale=1; $res" | awk '{print $1,"/",$2}' FS="x" | bc -l)
+
+		if [[ ! -z $res ]]; then
+			ratio=$(echo "scale=1; $res" | awk '{print $1,"/",$2}' FS="x" | bc -l)
+		fi	
 	fi	
 fi 
 
