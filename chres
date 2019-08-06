@@ -152,6 +152,11 @@ select res in ${selected_resols[@]} default quit
 do
 	[[ $res == "quit" ]] && break
 
+	if [[ ! $res =~ ^[0-9]+$ ]] ||  [[ $res -lt 1 ]] || [[ $res -gt $((${#selected_resols[@]} + 1)) ]]; then
+		echo "Invalid option"
+		continue
+	fi
+
 	echo "Changing to $res"
 	sleep 1
 	set_resol "$res"
