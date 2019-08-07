@@ -146,7 +146,6 @@ options ()
 TEXT
 )
 
-	declare -A opts
 	declare -A op_aliases
 	local alias
 
