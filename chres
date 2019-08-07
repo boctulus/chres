@@ -8,6 +8,26 @@ load chres.conf
 load libs
 
 
+cut_display () {
+	local display=$1
+	local i
+	local _display
+
+	declare -a lines
+	explode "$(xrandr)" ENTER lines
+
+	for ((i=0;i<"${#lines[@]}";i++)); do
+		_display=$(grep 'connected' <<< "${lines[$i]}" | egrep -o -i ^[a-z][a-z0-9\-]*)
+		if [[ $_display == $display ]]; then
+			((i++))
+			while [ $i -lt "${#lines[@]}" ] && [ -z $(grep 'connected' <<< "${lines[$i]}" | egrep -o -i ^[a-z][a-z0-9\-]*) ]; do
+				echo -e "${lines[$i]}"
+				((i++))
+			done
+		fi
+	done
+}
+
 get_resols () {
 	declare -A local _arr
 	_arr=()
@@ -15,7 +35,7 @@ get_resols () {
 	local minw=$(echo $minres | cut -d'x' -f1)
 	local minh=$(echo $minres | cut -d'x' -f2)
 
-	local resols=$(xrandr | egrep -o '[0-9]{3,}+x[0-9]{3,}')
+	local resols=$(echo "$(cut_display $display)" | egrep -o '[0-9]{3,}+x[0-9]{3,}')
 
 	local ix=0
 	local res
@@ -72,6 +92,7 @@ set_resol () {
 	xrandr --output $display --mode ${wxh}_$frec.00 2>/dev/null
 }
 
+# Get connected display interfaces
 get_interfaces () {
 	xrandr | grep ' connected' | egrep -o -i ^[a-z][a-z0-9\-]*
 }
