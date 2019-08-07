@@ -1,0 +1,59 @@
+#
+# Busca un elemento en un arreglo
+#
+# @param string elemento_a_buscar	
+# @param string array_name
+# @return integer 0/1 según sea éxito o fracaso
+#
+in_array () {
+	[[ $# -lt 2 ]] && return 1
+
+	local elem=$1
+	local arr_name=$2
+	local _arr
+	local x
+
+	str='_arr="${'
+	str+=$arr_name
+	str+='[@]}"'
+
+	eval $str
+
+	for x in $_arr; do
+		[ "${x}" == "$elem" ] && return 0
+	done
+
+	return 1
+}
+
+#
+# Hace un 'split' de un string generando un array (simil explode de php)
+#
+# @param string string_to_explode
+# @param string separator
+# @param array 	
+#
+explode () {
+	local strvar="$1"
+	local sep="$2"
+	local arrname=$3
+
+	set -f
+	case $2 in
+		ENTER)
+			IFS=$'\n'
+			;;
+		TAB)
+			IFS=$'\t'
+			;;	
+		*)
+			IFS=$2
+			;;	
+	esac		
+	set -- $strvar
+	set +f; unset IFS
+
+	str=$arrname
+	str+='=("$@")'
+	eval "$str"
+}
