@@ -1,6 +1,7 @@
 #!/bin/bash
 
-version=0.1
+version=0.11
+frec=60
 
 load () { source $(dirname $(realpath $0))/$1; }
 
@@ -79,7 +80,7 @@ reset () {
 set_resol () {
 	local wxh=$1
 
-	[[ -z $1 ]] || [[ -z $display ]] && echo "Missing argument for set_resol"
+	[[ -z $1 ]] || [[ -z $display ]] && { echo "Missing argument for set_resol"; exit 1; }
 
 	[[ $wxh == "default" ]] && { reset; return; }
 
@@ -130,7 +131,7 @@ get_alias () {
 		480p)
 			echo 858x480
 			;;
-		HALF-HD|720p)
+		HD|HALF-HD|720p)
 			echo 1280x720
 			;;
 		FULL-HD|1080p)
@@ -202,6 +203,8 @@ TEXT
 
 options $@
 
+
+[[ ! -z $DISPLAY ]] && screen=$DISPLAY || screen=':0'
 
 # Get / select display
 [[ -z $display ]] && get_display
