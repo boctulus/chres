@@ -159,6 +159,7 @@ options ()
 	Options:
 
 	 -d, --display                   specify display interface ($(get_interfaces),...)
+	 -s, --screen                    :0 is the default screen but it can be changed      
 	 -r, --resolution                set display resolution
 	 -R. --reset                     set default resolution
 
@@ -171,7 +172,7 @@ TEXT
 	declare -A op_aliases
 	local alias
 
-	op_aliases=([display]='-d,--display' [resolution]='-r,--resolution' [reset]='-R,--reset') 
+	op_aliases=([display]='-d,--display' [resolution]='-r,--resolution' [screen]='-s,--screen' [reset]='-R,--reset') 
 
 	case $1 in 
 		-h|--help)	 
@@ -203,8 +204,10 @@ TEXT
 
 options $@
 
-
-[[ ! -z $DISPLAY ]] && screen=$DISPLAY || screen=':0'
+# Set screen
+if [[ -z $screen ]]; then
+	[[ ! -z $DISPLAY ]] && screen=$DISPLAY || screen=':0'
+fi
 
 # Get / select display
 [[ -z $display ]] && get_display
