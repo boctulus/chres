@@ -7,6 +7,7 @@ Usage
      
 	Options:
      
+      -s, --screen                    :0 is the default screen but it can be changed 
 	  -d, --display                   specify display interface (eDP-1-1,...)
 	  -r, --resolution                set display resolution
 	  -R. --reset                     set default resolution
