@@ -28,5 +28,4 @@ Examples
 How to install
 
     git clone https://github.com/boctulus/chres.git
-    cd chres 
     sudo ln -s $(pwd)/chres /usr/bin		
