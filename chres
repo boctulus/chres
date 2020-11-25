@@ -149,6 +149,7 @@ get_alias () {
 options () 
 {
 	local help=$(cat <<-TEXT
+	CHRES utility by @boctulus
 
 	Usage:
 
@@ -165,6 +166,9 @@ options ()
 
 	 -h, --help                      display this help
 	 -v, --version                   display version
+
+
+	 https://github.com/boctulus/chres
 
 TEXT
 )
@@ -248,6 +252,8 @@ fi
 # Select automaticaly some resolutions 
 get_resols
 
+echo -e "CHRES utility by @boctulus"
+echo -e
 echo -e "Select resolution \n"
 
 select res in ${selected_resols[@]} default quit
