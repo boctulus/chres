@@ -168,7 +168,16 @@ options ()
 	 -v, --version                   display version
 
 
-	 https://github.com/boctulus/chres
+	Examples:
+
+	chres                            menu is shown
+	chres --resolution 1024x768 
+	chres --resolution 1024x768 --display HDMI-1-2
+	chres --display eDP-1-1 --reset
+	chres --reset --display eDP-1-1 
+
+
+	https://github.com/boctulus/chres
 
 TEXT
 )
