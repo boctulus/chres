@@ -167,7 +167,6 @@ options ()
 	 -h, --help                      display this help
 	 -v, --version                   display version
 
-
 	Examples:
 
 	chres                            menu is shown
@@ -176,6 +175,32 @@ options ()
 	chres --display eDP-1-1 --reset
 	chres --reset --display eDP-1-1 
 
+
+	Only resolutions which are not filtered in chres.conf are shown ***
+	
+	chres.conf <example>
+
+	# aspect-ratio (optional) 
+	ratio=16:9
+
+	# minimal height and width as resolution or an alias (optional)
+	minres=1080p
+
+
+	Aliases for screen resolution
+
+	240p or SD                      352x240
+			
+	360p                            480x360
+			
+	480p                            858x480
+			
+	720p or HD or HALF-HD           1280x720
+			
+	1080p or FULL-HD                1920x1080
+
+	2160p or ULTRA-HD or 4K         3860x2160
+	
 
 	https://github.com/boctulus/chres
 
