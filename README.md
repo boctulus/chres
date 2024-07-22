@@ -3,7 +3,7 @@ Change easly display resolution in Linux
 
 # How it works
 
-It's a command tool utility. Just download.... give execution permission to the script and then run commands to change screen resolution.
+It's a command tool utility, a "front-end" (also for the terminal) for xrandr. Just download.... give execution permission to the script and then run commands to change screen resolution.
 
 Usage
 
