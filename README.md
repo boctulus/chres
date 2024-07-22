@@ -1,5 +1,6 @@
-# chres
-Change easly display resolution in Linux
+# ChRes: Change screen resolution in a easy way 
+
+Compatible with all Linux distros.
 
 # How it works
 
