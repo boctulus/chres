@@ -5,6 +5,22 @@ Change easly display resolution in Linux
 
 It's a command tool utility, a "front-end" (also for the terminal) for xrandr. Just download.... give execution permission to the script and then run commands to change screen resolution.
 
+# Motivation
+
+The command xrandr is great but do not provide filters or preferences about aspect ratio and minimum resolution.
+
+# Configuration
+
+Just pick up and edit the file named "chres.conf"
+
+```bash
+# aspect-ratio as fraction, decimal number or by example with a resolution (optional) 
+ratio=16:9
+
+# minimal height and width as resolution (WidthxHeight) or using an alias (optional)
+minres=1080p
+```
+
 Usage
 
     chres <options>
